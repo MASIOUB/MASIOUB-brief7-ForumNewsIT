@@ -1,0 +1,5 @@
+<!-- @foreach ($categories as $item)
+                                <a class="dropdown-item" href="#">
+                                    {{ $item->name }}
+                                </a>
+                                @endforeach -->

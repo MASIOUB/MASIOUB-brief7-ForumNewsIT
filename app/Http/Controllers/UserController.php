@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CommentCotroller extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class CommentCotroller extends Controller
      */
     public function index()
     {
-        
+        //
     }
 
     /**
@@ -35,16 +36,16 @@ class CommentCotroller extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(User $user)
     {
         //
     }
@@ -52,33 +53,45 @@ class CommentCotroller extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit($user_id)
     {
-        //
+        $categories = Category::all();
+        $user = User::find($user_id);
+        return view('user.edit', ['user' => $user, "categories" => $categories]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, $user_id)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+
+        $user = User::find($user_id);
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->update();
+
+        return redirect('home')->with('message', 'Your Profile Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Comment  $comment
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(User $user)
     {
         //
     }

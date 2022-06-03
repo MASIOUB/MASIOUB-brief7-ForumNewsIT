@@ -11,10 +11,17 @@ class PostController extends Controller
 {
     public function index()
     {
+        // echo 'hello';
+        // die();
         $categories = Category::all();
-        $count = Post::count();
         $posts = Post::all();
-        return view('admin.post.index', ["posts" => $posts, "row" => $count, "categories" => $categories]);
+        return view('admin.post.index', ["posts" => $posts, "categories" => $categories]);
+    }
+
+    public function show($post_id)
+    {
+        $post = Post::find($post_id);
+        return view('admin.post.show', ['post' => $post]);
     }
 
     public function destroy($post_id)

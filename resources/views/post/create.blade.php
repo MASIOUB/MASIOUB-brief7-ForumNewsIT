@@ -37,10 +37,9 @@
                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
-                    <label for="image" class="mt-3"> Image : </label>
+                    <label for="image" class="mt-3"> Image : </label><p>{{Auth::user()->id}}</p>
                     <input type="file" class="form-control" name="image" placeholder="Write Something ...">
                     <input type="hidden" class="form-control" name="created_by" value="{{Auth::user()->id}}">
-                    <!-- <p>{{Auth::user()->id}}</p> -->
                     <input name="submit-form" value="Add" type="submit" class="btn btn-primary px-4 mt-3" />
                 </form>
             </div>

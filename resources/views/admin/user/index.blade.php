@@ -13,23 +13,23 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Category Name</th>
+                        <th>Name</th>
+                        <th>Email</th>
                         <th>Delete</th>
                         <th>Show</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($posts as $item)
+                    @foreach ($users as $item)
                     <tr>
                         <td>{{$item->id }}</td>
-                        <td>{{$item->title }}</td>
-                        <td>{{$item->category->name }}</td>
+                        <td>{{$item->name }}</td>
+                        <td>{{$item->email }}</td>
                         <td>
-                            <a href="{{ url('admin/delete-post/' . $item->id) }}" class="btn btn-danger">Delete</a>
+                            <a href="{{ url('admin/delete-user/' . $item->id) }}" class="btn btn-danger">Delete</a>
                         </td>
                         <td>
-                            <a href="{{ url('admin/show-post/' . $item->id) }}" class="btn btn-primary">Show</a>
+                            <a href="{{ url('admin/show-user/' . $item->id) }}" class="btn btn-primary">Show</a>
                         </td>
                     </tr>
 

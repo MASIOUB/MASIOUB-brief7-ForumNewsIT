@@ -16,4 +16,24 @@ class Post extends Model
     public function category(){
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function upvote()
+    {
+        return $this->hasMany(Upvote::class);
+    }
+
+    public function downvote()
+    {
+        return $this->hasMany(Downvote::class);
+    }
 }

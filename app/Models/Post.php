@@ -27,12 +27,12 @@ class Post extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function upvote()
+    public function upvotes()
     {
         return $this->hasMany(Upvote::class);
     }
 
-    public function downvote()
+    public function downvotes()
     {
         return $this->hasMany(Downvote::class);
     }

@@ -24,6 +24,7 @@
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h1 class="card-title">{{ $post->title }}</h1>
+                                        <span>{{$post->id}}</span>
                                         <p class="mb-4" style="color: #747474">Posted on {{ $post->created_at }} - Category : <a href="{{ route('posts@index') . '?category=' . $post->category->id }}" style="text-decoration: none">{{$post->category->name}}</a></p>
                                         <p class="card-text">{{ $post->description }}</p>
                                         <div class="p-0 d-flex align-items-center">

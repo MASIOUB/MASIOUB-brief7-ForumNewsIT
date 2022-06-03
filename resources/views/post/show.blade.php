@@ -12,7 +12,7 @@
 
                 <h1 class="">{{ $post->title }}</h1>
                 <ul class="list-inline">
-                    <li>Posted on {{ $post->created_at }} - by {{$post->user->name}}</li>
+                    <li>Posted on {{ $post->created_at }} - by {{ $post->user->name }}</li>
                 </ul>
 
                 <p class="lead mt-5">{{ $post->description }}</p>
@@ -21,26 +21,16 @@
 
                     <div class="row justify-content-between" style="gap: 5px;">
                         <div class="d-flex align-items-center" style="gap: 5px;">
-                            <div>
-                                <div class="input-group d-flex">
+                            <div class="d-flex">
+                                <div class="input-group">
                                     <div class="input-group-btn">
-                                        
-                                        @if ($upvoted)
-
-                                            <a type="button" id="decreaseButton"
-                                                href="{{ route('posts@downvote', $post->id) }}" class="btn btn-danger">
-                                                <i class="fas fa-thumbs-down"></i>
-                                            </a>
-                                        @else
-                                            <a type="button" id="increaseButton" href="{{ route('posts@upvote', $post->id) }}"
-                                                class="btn btn-success" style="border-radius: 50%;">
-                                                <i class="fas fa-thumbs-up"></i>
-                                            </a>
-                                        @endif
+                                        <a type="button" id="increaseButton" href="{{ route('posts@upvote', $post->id) }}"
+                                            class="btn btn-success" style="border-radius: 50%;">
+                                            <i class="fas fa-thumbs-up"></i>
+                                        </a>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
+
                                 <div class="input-group">
                                     <div class="input-group-btn">
 
@@ -53,7 +43,8 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center">
-                            <p class="my-0">{{ $upvotes }} Upvotes, {{ $downvotes }} Downvotes</p>
+                            <p class="my-0">{{count($upvotes)}} Upvotes, {{count($downvotes)}} Downvotes</p>
+                            {{-- <p>{{count($downvotes)}}</p> --}}
                         </div>
                     </div>
                 @endauth

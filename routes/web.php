@@ -44,8 +44,8 @@ Route::get('comment/{comment_id}', [\App\Http\Controllers\CommentController::cla
 // });
 
 
-Route::post('posts/{post_id}', [\App\Http\Controllers\PostController::class, 'upvote'])->name('posts@upvote');
-Route::get('posts/{post_id}', [\App\Http\Controllers\PostController::class, 'downvote'])->name('posts@downvote');
+Route::get('posts/{post_id}/upvote', [\App\Http\Controllers\PostController::class, 'upvote'])->name('posts@upvote');
+Route::get('posts/{post_id}/downvote', [\App\Http\Controllers\PostController::class, 'downvote'])->name('posts@downvote');
 
 
 Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {

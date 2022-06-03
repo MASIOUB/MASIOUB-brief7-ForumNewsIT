@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Downvote;
 use App\Models\Upvote;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
@@ -90,19 +91,25 @@ class PostController extends Controller
     {
         $categories = Category::all();
         $user = User::all();
-        $post = Post::with("comments", "comments.user")->find($post_id);
-        $upvotes = Upvote::where('post_id', $post_id)->count();
-        $downvotes = Downvote::where('post_id', $post_id)->count();
-        $upvoted = auth()->user() ? Upvote::where("user_id", auth()->user()->id)->where("post_id", $post_id)->count() > 0 : false;
-        $downvoted = auth()->user() ? Downvote::where("user_id", auth()->user()->id)->where("post_id", $post_id)->count() > 0 : false;
-        echo $upvoted;
-        echo $downvoted;
-        die();
+        $post = Post::with("comments", "comments.user")->withCount("upvotes","downvotes")->find($post_id);
+        // $upvoted = auth()->user() ? Upvote::where("user_id", auth()->user()->id)->where("post_id", $post_id)->count() > 0 : false;
+        // $downvoted = auth()->user() ? Downvote::where("user_id", auth()->user()->id)->where("post_id", $post_id)->count() > 0 : false;
+        $upvoted = $post->whereHas("upvotes", function(Builder $query){
+            $query->where("user_id", auth()->user()->id);
+        });
+        $downvoted = $post->whereHas("downvotes", function(Builder $query){
+            $query->where("user_id", auth()->user()->id);
+        });
+        // echo "up : " . $upvoted;
+        // echo $downvoted;
+
+        // // echo 'hello';
+        // die();
         return view('post.show',
         ['post' => $post,
         'categories' => $categories,
-        'upvotes' => $upvotes,
-        'downvotes'=> $downvotes,
+        'upvotes' => $post->upvotes,
+        'downvotes'=> $post->downvotes,
         'upvoted'=> $upvoted,
         'downvoted'=> $downvoted,
         'user' => $user
@@ -183,27 +190,24 @@ class PostController extends Controller
         $upvote = Upvote::where("post_id", $post_id)->where("user_id", auth()->user()->id)->first();
         $downvote = Downvote::where("post_id", $post_id)->where("user_id", auth()->user()->id)->first();
 
-
-        // $downvote = Downvote::where("post_id", $id)->where("user_id", auth()->user()->id)->first();
-        // $upvote = Upvote::where("post_id", $id)->where("user_id", auth()->user()->id)->first();
-
         if ($upvote) {
             $upvote->delete();
-        } else {
+        } else{
             if ($downvote) {
                 $downvote->delete();
             }
-
             Upvote::create([
                 "post_id" => $post_id,
                 "user_id" => auth()->user()->id
             ]);
         }
+
         return back();
     }
 
     public function downvote($post_id)
     {
+
         $downvote = Downvote::where("post_id", $post_id)->where("user_id", auth()->user()->id)->first();
         $upvote = Upvote::where("post_id", $post_id)->where("user_id", auth()->user()->id)->first();
 
@@ -211,6 +215,8 @@ class PostController extends Controller
 
         if ($downvote) {
             $downvote->delete();
+
+
         } else {
             if ($upvote) {
                 $upvote->delete();

@@ -14,7 +14,7 @@
                     @endforeach
                 </div>
                 @endif
-
+                
                 <h2 class="card-header bg-primary text-white text-center">
                     Add Post
                 </h2>
